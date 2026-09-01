@@ -1,0 +1,968 @@
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>讓出文字，留住典故</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Instrument+Serif:ital@0;1&family=Noto+Serif+TC:wght@200;300;400&display=swap">
+
+<style>
+:root{
+  --night:#080C18; --deep:#101830; --veil:#1A2340;
+  --ink:#F4EFE6; --dim:#96A0BC; --faint:#5A648A;
+  --rose:#E8836B; --gold:#D9A54B; --beam:#7FC8D9; --silver:#CBD4EA;
+  --hair:rgba(203,212,234,.16); --hair-2:rgba(203,212,234,.07);
+  --acc:var(--silver);
+  --f-mark:Outfit,"Helvetica Neue",sans-serif;
+  --f-serif:"Instrument Serif",Georgia,serif;
+  --f-zh:"Noto Serif TC","Songti TC",serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(120% 72% at 50% 110%, rgba(203,212,234,.13) 0%, rgba(127,200,217,.05) 27%, transparent 62%),
+    linear-gradient(180deg, var(--night) 0%, var(--deep) 60%, var(--veil) 100%);
+  background-color:var(--night);
+  color:var(--ink);
+  font-family:var(--f-mark),"Noto Sans TC","PingFang TC",sans-serif;
+  font-weight:300;font-size:16px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
+  opacity:.15;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── deck ─────────────────────────── */
+.deck{position:fixed;inset:0;z-index:1}
+.slide{
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+  padding:clamp(28px,5vh,64px) clamp(24px,5vw,86px) clamp(64px,9vh,92px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .5s ease, transform .5s cubic-bezier(.22,.7,.3,1);
+  transform:translateY(14px);
+}
+.slide.on{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.inner{width:100%;max-width:1180px;max-height:100%;overflow-y:auto;overscroll-behavior:contain}
+.inner::-webkit-scrollbar{width:0}
+
+/* ── 共用 ─────────────────────────── */
+.eyebrow{font-size:10.5px;font-weight:400;letter-spacing:.36em;text-transform:uppercase;color:var(--faint);display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline}
+.eyebrow em{font-family:var(--f-serif);font-style:italic;letter-spacing:.04em;text-transform:none;font-size:14px;color:var(--dim)}
+.hl{color:var(--acc);font-weight:500}
+
+/* ── 01 封面 ──────────────────────── */
+.cover{display:flex;flex-direction:column;gap:clamp(26px,4.4vh,48px)}
+h1{margin:0;font-weight:200;font-size:clamp(46px,10.6vw,132px);line-height:.94;letter-spacing:-.045em;max-width:14em}
+h1 b{font-weight:500;color:var(--ink)}
+.thesis{margin:0;font-family:var(--f-zh);font-weight:300;max-width:42em;font-size:clamp(14px,1.6vw,17.5px);line-height:2.05;letter-spacing:.012em;color:var(--dim)}
+.thesis strong{color:var(--ink);font-weight:400}
+.sign{font-size:11px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+.sign b{color:var(--dim);font-weight:400;letter-spacing:.16em}
+.horizon{position:relative;height:1px;background:linear-gradient(90deg,transparent,var(--hair) 12%,rgba(203,212,234,.55) 50%,var(--hair) 88%,transparent)}
+.horizon::after{content:"";position:absolute;left:50%;top:-3px;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:var(--silver);box-shadow:0 0 22px 5px rgba(203,212,234,.35)}
+
+/* ── 02 家族 ──────────────────────── */
+.fam{display:flex;flex-direction:column;gap:clamp(20px,3vh,34px)}
+.fam h2{margin:0;font-weight:200;font-size:clamp(23px,3.4vw,37px);letter-spacing:-.028em;line-height:1.35;max-width:20em}
+.fam-head{display:flex;flex-direction:column;gap:clamp(5px,.9vh,11px)}
+#s2 .mark{font-size:clamp(30px,5.2vw,60px)}
+.lockup-wrap{
+  display:flex;flex-direction:column;gap:11px;
+  padding:clamp(20px,3vh,30px) 0;border-top:1px solid var(--hair-2);border-bottom:1px solid var(--hair-2);
+}
+.lockup{
+  font-family:var(--f-serif);font-size:clamp(22px,3.7vw,46px);font-weight:400;line-height:1.4;letter-spacing:-.004em;
+  font-style:italic;
+}
+.lockup i{font-family:var(--f-serif);font-style:italic;color:var(--dim)}
+.lockup b{color:var(--beam);font-weight:500;font-style:italic}
+.lockup-zh{font-family:var(--f-zh);font-weight:300;font-size:13.5px;letter-spacing:.012em;color:var(--dim)}
+.fam p{margin:0;font-family:var(--f-zh);font-weight:300;font-size:clamp(13.5px,1.5vw,16px);color:var(--dim);max-width:40em;line-height:2.05;letter-spacing:.012em}
+.tsuf-band{
+  display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;
+  margin-top:clamp(14px,2.8vh,28px);
+  padding:clamp(13px,2vh,20px) clamp(18px,2.6vw,30px);
+  border:1px solid var(--hair-2);
+  background:linear-gradient(180deg,rgba(203,212,234,.028),rgba(203,212,234,.005));
+}
+.tsuf-en{font-family:var(--f-serif);font-size:clamp(13.5px,1.6vw,19px);letter-spacing:.005em;line-height:1.4;color:var(--silver)}
+.tsuf-en i{font-family:var(--f-serif);font-style:italic;color:var(--dim)}
+.tsuf-en b{font-style:normal;font-weight:500;color:var(--ink)}
+.tsuf-en2{margin-top:-2px}
+.tsuf-zh{font-family:var(--f-zh);font-weight:300;font-size:clamp(11px,1.15vw,12.5px);line-height:1.85;letter-spacing:.02em;color:var(--faint)}
+.tsuf-zh b{color:var(--dim);font-weight:400}
+.suffix{display:flex;flex-wrap:wrap;gap:9px}
+.suffix span{font-size:12.5px;font-weight:300;color:var(--dim);border:1px solid var(--hair);border-radius:999px;padding:6px 16px;letter-spacing:.05em}
+.suffix span b{color:var(--ink);font-weight:400}
+
+/* ── 03-05 三案 ───────────────────── */
+.case{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(26px,4.5vw,68px);align-items:center}
+.case.flip .copy{order:2}.case.flip .viz{order:1}
+.copy{display:flex;flex-direction:column;gap:clamp(13px,1.9vh,20px);min-width:0}
+.slot{font-size:clamp(15px,1.8vw,20px);font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:var(--acc)}
+.mark{margin:0;font-weight:400;font-size:clamp(34px,6.4vw,74px);line-height:1;letter-spacing:-.042em}
+.mark span{font-weight:300;color:var(--dim)}
+.ipa{font-family:var(--f-serif);font-size:clamp(14px,1.5vw,17px);color:var(--dim);letter-spacing:.03em}
+.root{font-family:var(--f-serif);font-size:clamp(16px,1.95vw,21px);line-height:1.5;color:var(--silver);padding-left:16px;border-left:1px solid var(--acc)}
+.root b{font-style:italic;font-weight:400;color:var(--ink)}
+.root em{font-family:var(--f-mark);font-style:normal;font-weight:300;font-size:12px;color:var(--faint);display:block;margin-top:7px;letter-spacing:.05em}
+.idea{margin:0;font-family:var(--f-zh);font-weight:300;font-size:clamp(13.5px,1.55vw,16px);line-height:2.05;letter-spacing:.012em;color:var(--dim);max-width:32em}
+.idea strong{color:var(--ink);font-weight:400}
+.idea.link{font-size:clamp(12.5px,1.4vw,14.5px);color:var(--faint);border-top:1px solid var(--hair-2);padding-top:9px;margin-top:-2px}
+
+/* ── 口述提詞：預設只給觀眾看關鍵字，講者點一下展開全文 ── */
+.cue{margin-top:-2px}
+.cue-keys{display:flex;flex-wrap:wrap;gap:7px;align-items:center;cursor:pointer;user-select:none;padding-bottom:10px;border-bottom:1px solid var(--hair-2)}
+.cue-k{
+  font-family:var(--f-zh);font-size:12px;font-weight:300;color:var(--faint);
+  border:1px solid var(--hair-2);border-radius:999px;padding:4px 13px;letter-spacing:.05em;
+  transition:color .3s,border-color .3s,transform .3s;
+}
+.cue-keys:hover .cue-k{color:var(--dim);border-color:var(--hair)}
+.cue-keys:hover .cue-k:hover{color:var(--ink);transform:translateY(-1px)}
+.cue-keys--quote{padding-bottom:12px;gap:14px;flex-wrap:nowrap}
+.cue-quote{
+  font-family:var(--f-serif);font-style:italic;font-weight:400;
+  font-size:clamp(15px,1.7vw,19px);color:var(--dim);letter-spacing:.01em;line-height:1.5;
+  transition:color .3s;
+}
+.cue-keys--quote:hover .cue-quote{color:var(--ink)}
+.cue-arrow{font-size:13px;color:var(--faint);line-height:1;transition:transform .35s,color .3s;flex-shrink:0}
+.cue-keys:hover .cue-arrow{color:var(--dim)}
+.cue.open .cue-arrow{transform:rotate(90deg)}
+.cue-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.3,1)}
+.cue.open .cue-body{grid-template-rows:1fr}
+.cue-body > .idea.link{overflow:hidden;border-top:0;padding-top:0;margin-top:0}
+.cue.open .cue-body > .idea.link{padding-top:8px}
+.tag{display:flex;flex-direction:column;gap:7px;padding-top:clamp(2px,1vh,8px)}
+.tag .en{font-family:var(--f-serif);font-size:clamp(21px,3vw,32px);font-weight:400;font-style:italic;line-height:1.32;letter-spacing:-.004em}
+.tag .zh{font-family:var(--f-zh);font-weight:300;font-size:13.5px;letter-spacing:.012em;color:var(--dim)}
+.tag .kick{font-family:var(--f-serif);font-style:italic;font-size:15px;letter-spacing:.01em;color:#7E88A8}
+.viz{position:relative;margin:0;min-width:0;aspect-ratio:1/1;max-height:min(56vh,540px);justify-self:center;width:100%}
+.viz canvas{width:100%;height:100%;display:block}
+.viz figcaption{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:10.5px;font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+.viz figcaption b{color:var(--dim);font-weight:400}
+
+#s3{--acc:var(--silver)}
+#s4{--acc:var(--beam)}
+#s5{--acc:var(--gold)}
+
+/* ── 06 命名架構 ──────────────────── */
+.arch{display:flex;flex-direction:column;gap:clamp(11px,1.8vh,19px)}
+.arch h2{margin:0;font-weight:200;font-size:clamp(19px,2.5vw,29px);letter-spacing:-.026em;line-height:1.3;color:var(--dim)}
+.arch .idea{max-width:48em;font-size:clamp(12.5px,1.4vw,14.5px);line-height:1.9}
+.diagram{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3.4vw,48px);align-items:start;padding:clamp(4px,1vh,10px) 0 0}
+.branch{--bc:var(--beam);display:flex;flex-direction:column;align-items:center}
+.branch.b-auro{--bc:var(--gold)}
+.n-prod{font-weight:400;font-size:clamp(27px,3.9vw,50px);letter-spacing:-.035em;line-height:1;color:var(--bc)}
+.n-prod .tsuf{color:var(--ink)}
+.n-prod .tld{font-weight:300;color:var(--faint)}
+.stem{position:relative;width:1px;height:clamp(18px,3vh,30px);margin-top:11px;background:linear-gradient(180deg,var(--bc),var(--hair));opacity:.55}
+.stem::before{content:"";position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--bc);box-shadow:0 0 12px 2px var(--bc)}
+.kids{display:flex}
+.kid{position:relative;padding:clamp(15px,2.4vh,22px) clamp(4px,.6vw,8px) 0}
+.kid::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--hair)}
+.kid:first-child::before{left:50%}
+.kid:last-child::before{right:50%}
+.kid:only-child::before{display:none}
+.kid::after{content:"";position:absolute;top:0;left:50%;width:1px;height:clamp(15px,2.4vh,22px);background:var(--hair)}
+.chip{
+  display:inline-block;font-size:clamp(12px,1.4vw,15.5px);font-weight:300;letter-spacing:.04em;color:var(--dim);
+  border:1px solid var(--hair);border-radius:999px;padding:8px 17px;white-space:nowrap;
+  transition:border-color .3s,color .3s,transform .3s;
+}
+.chip b{font-weight:400;color:var(--bc)}
+.chip.ghost{border-style:dashed}
+.chip:hover{border-color:var(--dim);color:var(--ink);transform:translateY(-1px)}
+.arch .cap{font-family:var(--f-zh);font-weight:300;font-size:11.5px;letter-spacing:.05em;color:var(--faint);margin-top:9px}
+@media(prefers-reduced-motion:no-preference){
+  @keyframes archGlow{0%,100%{text-shadow:0 0 8px rgba(203,212,234,.14)}50%{text-shadow:0 0 18px rgba(203,212,234,.42)}}
+  .slide.on .tsuf{animation:archGlow 3.8s ease-in-out infinite}
+}
+
+/* ── 07 收尾 ──────────────────────── */
+.close{display:flex;flex-direction:column;gap:clamp(18px,2.8vh,30px)}
+.close h2{margin:0;font-weight:200;font-size:clamp(19px,2.6vw,30px);line-height:1.3;letter-spacing:-.026em;max-width:20em;color:var(--dim)}
+.close p{margin:0;font-family:var(--f-zh);font-weight:300;font-size:clamp(13.5px,1.55vw,16px);line-height:2.05;letter-spacing:.012em;color:var(--dim);max-width:44em}
+.close p b{color:var(--ink);font-weight:400}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--hair-2);border:1px solid var(--hair-2)}
+.axes div{background:linear-gradient(180deg,rgba(255,255,255,.014),transparent);padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+.axes .n{font-size:clamp(13px,1.5vw,16px);font-weight:400;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.axes .w{font-family:var(--f-zh);font-size:clamp(16px,2vw,21px);font-weight:300;letter-spacing:.04em}
+.axes .nm{font-size:clamp(26px,3.7vw,46px);font-weight:400;letter-spacing:-.035em;line-height:1.05;margin-top:4px}
+.axes .nm span{font-weight:300;color:var(--dim)}
+.axes .a{color:var(--silver)}.axes .b{color:var(--beam)}.axes .e{color:var(--gold)}
+.axes .s{font-family:var(--f-zh);font-weight:300;font-size:12.5px;line-height:1.7;letter-spacing:.012em;color:var(--faint);margin-top:1px}
+.axes div{gap:5px}
+.risk{border:1px solid var(--hair-2);border-left:2px solid var(--silver);padding:13px 18px 11px;display:flex;flex-direction:column;gap:4px}
+.risk .n{font-size:10.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--faint)}
+.close .risk p{font-size:12.5px;max-width:none;line-height:1.9}
+.own{border-top:1px solid var(--hair);padding-top:clamp(12px,2vh,20px);display:flex;flex-direction:column;gap:6px}
+.own-zh{font-family:var(--f-zh);font-weight:300;font-size:clamp(17px,2.1vw,24px);line-height:1.7;letter-spacing:.02em;color:var(--dim)}
+.own-zh strong{color:var(--ink);font-weight:400}
+.own-en{font-family:var(--f-serif);font-style:italic;font-size:clamp(15px,1.9vw,21px);letter-spacing:.01em;color:var(--silver)}
+.foot{font-family:var(--f-zh);font-weight:300;font-size:12.5px;color:var(--faint);letter-spacing:.03em}
+
+/* ── 導覽 ─────────────────────────── */
+.rail{
+  position:fixed;left:0;right:0;bottom:0;z-index:4;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:16px clamp(20px,5vw,50px);
+  background:linear-gradient(180deg,transparent,rgba(8,12,24,.72));
+}
+.dots{display:flex;gap:7px;align-items:center}
+.dots button{
+  appearance:none;border:0;padding:0;cursor:pointer;background:transparent;
+  width:26px;height:22px;display:grid;place-items:center;
+}
+.dots i{display:block;width:22px;height:1px;background:var(--faint);transition:background .3s,height .3s}
+.dots button[aria-current="true"] i{background:var(--silver);height:2px}
+.dots button:hover i{background:var(--dim)}
+.arrows{display:flex;gap:8px;align-items:center}
+.arrows button{
+  appearance:none;cursor:pointer;background:transparent;border:1px solid var(--hair);
+  color:var(--dim);width:38px;height:32px;border-radius:2px;font-size:15px;line-height:1;
+  transition:border-color .25s,color .25s,background .25s;
+  font-family:var(--f-mark);
+}
+.arrows button:hover:not(:disabled){border-color:var(--dim);color:var(--ink);background:rgba(203,212,234,.05)}
+.arrows button:active:not(:disabled){background:rgba(203,212,234,.10)}
+.arrows button:disabled{opacity:.28;cursor:default}
+.count{font-family:var(--f-serif);font-size:15px;color:var(--faint);letter-spacing:.08em;min-width:56px;text-align:right}
+.hint{
+  position:fixed;left:50%;bottom:62px;transform:translateX(-50%);z-index:4;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);
+  transition:opacity .5s;pointer-events:none;
+}
+.hint.gone{opacity:0}
+
+.zone{position:fixed;top:0;bottom:56px;width:16%;z-index:2;cursor:pointer}
+.zone.l{left:0}.zone.r{right:0}
+
+/* ── 快速編輯模式 ─────────────────── */
+.edit-bar{position:fixed;top:14px;right:14px;z-index:6;display:flex;gap:8px}
+.edit-btn{
+  appearance:none;cursor:pointer;font-family:var(--f-mark);font-size:11.5px;letter-spacing:.05em;
+  background:rgba(8,12,24,.78);border:1px solid var(--hair);color:var(--dim);
+  padding:7px 13px;border-radius:3px;transition:border-color .2s,color .2s,background .2s;
+}
+.edit-btn:hover{border-color:var(--dim);color:var(--ink);background:rgba(8,12,24,.92)}
+.edit-btn.on{border-color:var(--silver);color:var(--ink)}
+body.typing .zone{pointer-events:none}
+body.editing [data-ek]{cursor:text;border-radius:2px;outline:1px dashed rgba(203,212,234,.32);outline-offset:5px;transition:outline-color .15s,background .15s}
+body.editing [data-ek]:hover{outline-color:rgba(203,212,234,.55)}
+body.editing [data-ek]:focus{outline:1px solid var(--silver);outline-offset:5px;background:rgba(203,212,234,.05)}
+.edit-toast{
+  position:fixed;left:50%;bottom:66px;transform:translateX(-50%);z-index:6;
+  font-family:var(--f-mark);font-size:11px;letter-spacing:.1em;color:var(--faint);
+  background:rgba(8,12,24,.85);border:1px solid var(--hair);padding:6px 16px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.edit-toast.show{opacity:1}
+
+@media(max-width:880px){
+  .case{grid-template-columns:1fr;gap:24px}
+  .case.flip .copy{order:1}.case.flip .viz{order:2}
+  .viz{aspect-ratio:5/3;max-height:30vh}
+  .zone{display:none}
+  .diagram{grid-template-columns:1fr;gap:26px}
+  .kids{flex-wrap:wrap;justify-content:center}
+  .kid::before,.kid::after{display:none}
+  .stem{display:none}
+}
+@media(max-height:620px){
+  .viz{max-height:40vh}
+  .idea{display:none}
+}
+
+/* ── 動效：進場敘事與藏字微光 ─────── */
+@media(prefers-reduced-motion:no-preference){
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .slide.on .inner > *{opacity:0;animation:rise .75s cubic-bezier(.2,.7,.3,1) forwards}
+  .slide.on .inner > *:nth-child(1){animation-delay:.05s}
+  .slide.on .inner > *:nth-child(2){animation-delay:.15s}
+  .slide.on .inner > *:nth-child(3){animation-delay:.25s}
+  .slide.on .inner > *:nth-child(4){animation-delay:.35s}
+  .slide.on .inner > *:nth-child(5){animation-delay:.45s}
+  .slide.on .inner > *:nth-child(6){animation-delay:.55s}
+  .slide.on .inner.case > .copy{opacity:1;animation:none} /* 三案頁的文字塊改由子元素逐一進場，避免父子雙重浮現 */
+  .slide.on .copy > *{opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+  .slide.on .copy > *:nth-child(1){animation-delay:.08s}
+  .slide.on .copy > *:nth-child(2){animation-delay:.16s}
+  .slide.on .copy > *:nth-child(3){animation-delay:.24s}
+  .slide.on .copy > *:nth-child(4){animation-delay:.34s}
+  .slide.on .copy > *:nth-child(5){animation-delay:.44s}
+  .slide.on .copy > *:nth-child(6){animation-delay:.54s}
+  .slide.on .copy > *:nth-child(7){animation-delay:.66s}
+  /* 藏字微光：家族機關頁的 lumi／ture，與三案 tagline 的點色字 */
+  @keyframes inkGlow{0%,100%{text-shadow:0 0 10px rgba(127,200,217,.18)}50%{text-shadow:0 0 24px rgba(127,200,217,.55)}}
+  .slide.on .lockup b{animation:inkGlow 3.6s ease-in-out infinite}
+  @keyframes hlGlow{0%,100%{text-shadow:0 0 8px}50%{text-shadow:0 0 20px}}
+  .slide.on .tag .hl{animation:hlGlow 3.6s ease-in-out infinite}
+  /* 封面地平線光點呼吸 */
+  @keyframes dotBreath{0%,100%{box-shadow:0 0 18px 4px rgba(203,212,234,.26)}50%{box-shadow:0 0 32px 7px rgba(203,212,234,.5)}}
+  .horizon::after{animation:dotBreath 4.2s ease-in-out infinite}
+  /* 後綴籤 hover 微浮 */
+  .suffix span{transition:border-color .3s,color .3s,transform .3s}
+  .suffix span:hover{border-color:var(--dim);transform:translateY(-1px)}
+  .suffix span:hover b{color:var(--beam)}
+  /* 收尾三欄 hover 提亮 */
+  .axes > div{transition:background .35s}
+  .axes > div:hover{background:linear-gradient(180deg,rgba(203,212,234,.045),transparent)}
+}
+
+:focus-visible{outline:1px solid var(--silver);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  .slide{transition:none;transform:none}
+}
+</style>
+
+<div class="deck" id="deck">
+
+  <!-- 01 -->
+  <section class="slide on" id="s1" aria-label="封面">
+    <div class="inner cover">
+      <div class="eyebrow"><span>CloudMile · AEGIS 更名提案</span></div>
+      <h1>讓出文字<br><b>留住典故</b></h1>
+      <div class="horizon"></div>
+      <div class="cue">
+        <div class="cue-keys cue-keys--quote" role="button" tabindex="0" aria-expanded="false">
+          <span class="cue-quote">雖然讓出了 Aegis 這個美麗的名字，但我希望能致力將典故留在原地。</span>
+          <span class="cue-arrow">›</span>
+        </div>
+        <div class="cue-body">
+          <p class="idea link thesis">
+Aegis 這個字取得好，但它也很熱門：十家以上的同類 AI agent 產品都在用它。<br>Logo 提案已經把 Aegis 讀成一枚可以往下傳的授權。<br>荷馬筆下它是披在身上、繫著流蘇的羊皮，不是一面舉起來的盾——<br>披上了就一直在，力量在附著。<br>本次提出兩個候選，各自接住原本典故的一段：光之所及的那片範圍、希臘神話這條血脈。<br>雖然讓出了 Aegis 這個美麗的名字，但我希望能致力將典故留在原地。
+          </p>
+        </div>
+      </div>
+      <div class="sign"><b>Kabin Yang</b>・2026 / 09 / 01</div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="slide" id="s2" aria-label="家族機關">
+    <div class="inner fam">
+      <div class="eyebrow"><span>產品家族已經有的</span></div>
+      <div class="fam-head">
+        <div class="mark">Lumi<span>Ture</span>.ai</div>
+        <h2>名字藏在 Tagline 之中。</h2>
+      </div>
+      <div class="lockup-wrap">
+        <div class="lockup">
+          <i>Scrutinize your cost,</i> il<b>lumi</b>nate <i>your</i> fu<b>ture</b><i>.</i>
+        </div>
+        <div class="lockup-zh">細看你的花費，照亮你的未來。</div>
+      </div>
+      <p>產品名的兩個語素藏進一句 Tagline，這是當年為 LumiTure 命名時留下的習慣。<br>本次提案為維持產品的家族體系，延用同一套藏字裝置，並且沿用同一個後綴「-Ture」。<br><b>後綴標記的是產品的血脈，產品字首則會傳給底下的子功能繼承。</b></p>
+      <div class="suffix">
+        <span><b>Lumi</b>Ture　光</span>
+        <span><b>Radi</b>Ture　調度</span>
+        <span><b>Auro</b>Ture　曙光</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 B -->
+  <section class="slide" id="s4" aria-label="提案 A RadiTure">
+    <div class="inner case flip">
+      <div class="copy">
+        <div class="slot">提案 A</div>
+        <h2 class="mark">Radi<span>Ture</span>.ai</h2>
+        <div class="ipa">['redɪˌtʃɚ]</div>
+        <div class="root">
+          <b>radius</b>＝ 光線 · 半徑 · 輻條（拉丁）
+          <em>此字根在現代：ray · radiate · radial</em>
+        </div>
+        <p class="idea">
+光線、半徑、輻條，共通點是「從一個點散射出去」。<br><strong>光走到哪裡，工作流就展開到哪裡：<br>光走得多遠，也代表著授權的範圍就有多大。</strong>
+        </p>
+        <div class="cue">
+          <div class="cue-keys" role="button" tabindex="0" aria-expanded="false">
+            <span class="cue-k">風暴 → 羊皮 → 盾</span>
+            <span class="cue-k">罩住一片範圍</span>
+            <span class="cue-k">材質換成光</span>
+            <span class="cue-arrow">›</span>
+          </div>
+          <div class="cue-body">
+            <p class="idea link">
+Aegis 一說原意是「風暴」，一種罩住整片天的力量，<br>後來才被想像成披在身上的羊皮與胸甲。<br>荷馬形容它「帶著流蘇」。盾沒有流蘇。<br>披上了就一直在，這才是它的力量。<br>這個提案接的就是那片被覆蓋的範圍，只是把材質換成光。<br>光落在哪裡，那裡就在範圍內；Agent 走多遠，光就跟到多遠。
+            </p>
+          </div>
+        </div>
+        <div class="tag">
+          <div class="en">Every agent <b class="hl">radi</b>ates from one place,<br>the fu<b class="hl">ture</b> stays yours.</div>
+          <div class="zh">光之所及，Agent 所在，以你之名，掌控未來。</div>
+          <div class="kick">— on infrastructure you own.</div>
+        </div>
+      </div>
+      <figure class="viz">
+        <canvas id="cv-b" aria-label="從中心往外射出的光線與半徑界線示意動畫"></canvas>
+        <figcaption><b>Radius</b> · 光之所及，皆為疆界</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 05 E -->
+  <section class="slide" id="s5" aria-label="提案 B AuroTure">
+    <div class="inner case">
+      <div class="copy">
+        <div class="slot">提案 B</div>
+        <h2 class="mark">Auro<span>Ture</span>.ai</h2>
+        <div class="ipa">['ɔrəˌtʃɚ]</div>
+        <div class="root">
+          <b>aurum</b> 金 · <b>aurora</b> 曙光，同一個古字根「發亮」
+          <em>此字根在現代：aurora（曙光、極光）· Au（金的元素符號）<br>aura（馬來語／印尼語：光芒、光環）</em>
+        </div>
+        <p class="idea">
+希臘神話裡的曙光女神 Eos（羅馬名為 Aurora），<br>每天為兄弟 Helios 打開天門，太陽的戰車才能出發；<br><strong>她不是那道光，她是讓那道光能出發的人。</strong>
+        </p>
+        <div class="cue">
+          <div class="cue-keys" role="button" tabindex="0" aria-expanded="false">
+            <span class="cue-k">授意出發</span>
+            <span class="cue-k">token 花費</span>
+            <span class="cue-k">兩道光：動能 × 洞察</span>
+            <span class="cue-arrow">›</span>
+          </div>
+          <div class="cue-body">
+            <p class="idea link">
+曙光是天亮的時候光長出來、附在物體上的樣子——不是擋在夜前面，是天亮了它就在。<br>由使用者授意 Agent「出發」，在此同時，token 也產生了花費；<br>而這些花費有沒有花對，後續由 LumiTure 的光照過去、看清楚。<br>所以兩個產品的關係，是兩道相關聯的光：<br><strong>一個產生動能的光、一個持續在暗處照亮洞察。</strong>
+            </p>
+          </div>
+        </div>
+        <div class="tag">
+          <div class="en">An <b class="hl">auro</b>ra of agents, a fu<b class="hl">ture</b> in your hands.</div>
+          <div class="zh">一聲令下，Agent 瞬化為聽令的光，未來由你掌控。</div>
+          <div class="kick">— on infrastructure you own.</div>
+        </div>
+      </div>
+      <figure class="viz">
+        <canvas id="cv-e" aria-label="極光光幕示意動畫"></canvas>
+        <figcaption><b>Aurora</b> · 讓光出發的女神</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 05b 命名架構 -->
+  <section class="slide" id="s7" aria-label="命名架構">
+    <div class="inner arch">
+      <div class="eyebrow"><span>命名架構 · 一套規則讀出兩層</span></div>
+      <h2>字尾認產品，字首認歸屬。</h2>
+      <div class="suffix">
+        <span><b>—Ture 結尾</b>　獨立產品</span>
+        <span><b>字首— 開頭</b>　該產品的功能</span>
+      </div>
+      <div class="diagram">
+        <div class="branch b-lumi">
+          <div class="n-prod">Lumi<span class="tsuf">Ture</span><span class="tld">.ai</span></div>
+          <div class="stem"></div>
+          <div class="kids">
+            <div class="kid"><span class="chip"><b>Lumi</b>Tag</span></div>
+            <div class="kid"><span class="chip ghost"><b>Lumi</b>MCP</span></div>
+            <div class="kid"><span class="chip ghost"><b>Lumi</b>Chat</span></div>
+            <div class="kid"><span class="chip ghost"><b>Lumi</b>Rate</span></div>
+          </div>
+          <div class="cap">LumiTag 已在用；其餘為未來的相關功能長法示意（虛線＝設想）</div>
+        </div>
+        <div class="branch b-auro">
+          <div class="n-prod">Auro<span class="tsuf">Ture</span><span class="tld">.ai</span></div>
+          <div class="stem"></div>
+          <div class="kids">
+            <div class="kid"><span class="chip ghost"><b>Auro</b>Search</span></div>
+            <div class="kid"><span class="chip ghost"><b>Auro</b>MCP</span></div>
+            <div class="kid"><span class="chip ghost"><b>Auro</b>NAS</span></div>
+            <div class="kid"><span class="chip ghost"><b>Auro</b>DBA</span></div>
+          </div>
+          <div class="cap">若定名 AuroTure，功能家族的長法（虛線＝設想）</div>
+        </div>
+      </div>
+      <div class="tsuf-band">
+        <div class="tsuf-en"><i>Every word that ends in</i> -<b>ture</b> <i>names a result.</i></div>
+        <div class="tsuf-en tsuf-en2"><i>So the name is already the promise:</i> light, and a fu<b>ture</b> <i>that stays yours.</i></div>
+        <div class="tsuf-zh"><b>-Ture</b> 就是 fu<b>ture</b> 的字尾。名字自己就是<b>一個光明的未來</b>。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="slide" id="s6" aria-label="收尾">
+    <div class="inner close">
+      <div class="eyebrow"><span>提案總覽</span></div>
+      <h2>四十幾個候選裡活下來的兩個。</h2>
+      <div class="axes">
+        <div>
+          <span class="n">提案 A</span>
+          <span class="nm b">Radi<span>Ture</span>.ai</span>
+          <span class="w b">調度</span>
+          <span class="s">一個軸心，管得到每一條線。</span>
+        </div>
+        <div>
+          <span class="n">提案 B</span>
+          <span class="nm e">Auro<span>Ture</span>.ai</span>
+          <span class="w e">曙光</span>
+          <span class="s">一聲令下，Agent 出發。</span>
+        </div>
+      </div>
+      <p>
+撞名、域名與字典可藏的字數都實際查過。<br>最終留下的兩案字母數與 LumiTure 相同，<b>.ai 域名目前全空</b>，<br>而且兩案都各自接得回 Aegis 的典故。<br>兩案都通過團隊內部自訂的九關審查（撞名、辭典、敘事、結構、視覺聯想等九關）。
+      </p>
+      <div class="own">
+        <div class="own-zh"><strong>它不在別人的雲上，安全存在於你自己的裝置裡。</strong></div>
+        <div class="own-en">on infrastructure you own.</div>
+      </div>
+      <div class="foot">目前使用字型為暫時示意，非最終定案。</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="zone l" id="zl" aria-hidden="true"></div>
+<div class="zone r" id="zr" aria-hidden="true"></div>
+
+<div class="hint" id="hint">← → 翻頁</div>
+
+<div class="edit-bar" id="editBar">
+  <button class="edit-btn" id="editToggle">✎ 編輯文字</button>
+  <button class="edit-btn" id="editDownload" style="display:none" title="存出目前這份文字（含你的修改）">⬇ 下載這份</button>
+  <button class="edit-btn" id="editReset" style="display:none" title="清掉在這台瀏覽器做的修改，回到原始文案">↺ 還原</button>
+</div>
+<div class="edit-toast" id="editToast"></div>
+
+<nav class="rail" aria-label="簡報導覽">
+  <div class="dots" id="dots"></div>
+  <div class="arrows">
+    <button id="prev" aria-label="上一頁">‹</button>
+    <button id="next" aria-label="下一頁">›</button>
+    <span class="count" id="count"></span>
+  </div>
+</nav>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const slides = Array.from(document.querySelectorAll('.slide'));
+const N = slides.length;
+let idx = 0;
+
+const dotsEl = document.getElementById('dots');
+const countEl = document.getElementById('count');
+const prevB = document.getElementById('prev');
+const nextB = document.getElementById('next');
+const hintEl = document.getElementById('hint');
+
+slides.forEach((s,i) => {
+  const b = document.createElement('button');
+  b.innerHTML = '<i></i>';
+  b.setAttribute('aria-label', '第 ' + (i+1) + ' 頁');
+  b.addEventListener('click', () => go(i));
+  dotsEl.appendChild(b);
+});
+const dotBtns = Array.from(dotsEl.children);
+
+function go(n){
+  idx = Math.max(0, Math.min(N-1, n));
+  slides.forEach((s,i) => {
+    const on = i === idx;
+    s.classList.toggle('on', on);
+    s.setAttribute('aria-hidden', on ? 'false' : 'true');
+  });
+  dotBtns.forEach((b,i) => b.setAttribute('aria-current', i === idx ? 'true' : 'false'));
+  countEl.textContent = String(idx+1).padStart(2,'0') + ' / ' + String(N).padStart(2,'0');
+  prevB.disabled = idx === 0;
+  nextB.disabled = idx === N-1;
+  if(idx > 0) hintEl.classList.add('gone');
+}
+prevB.addEventListener('click', () => go(idx-1));
+nextB.addEventListener('click', () => go(idx+1));
+document.getElementById('zl').addEventListener('click', () => go(idx-1));
+document.getElementById('zr').addEventListener('click', () => go(idx+1));
+
+function syncTypingClass(){
+  const ae = document.activeElement;
+  document.body.classList.toggle('typing', !!(ae && ae.isContentEditable));
+}
+document.addEventListener('focusin', syncTypingClass);
+document.addEventListener('focusout', () => setTimeout(syncTypingClass, 0));
+
+addEventListener('keydown', e => {
+  const ae = document.activeElement;
+  if(ae && ae.isContentEditable) return; // 正在打字才擋，不是整個編輯模式都擋
+  const k = e.key;
+  if(k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' '){ e.preventDefault(); go(idx+1); }
+  else if(k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp'){ e.preventDefault(); go(idx-1); }
+  else if(k === 'Home'){ e.preventDefault(); go(0); }
+  else if(k === 'End'){ e.preventDefault(); go(N-1); }
+});
+
+/* 口述提詞：點關鍵字展開全文（編輯模式時交還給文字編輯，不展開） */
+document.querySelectorAll('.cue-keys').forEach(k => {
+  const toggle = () => {
+    if(document.body.classList.contains('editing')) return;
+    const c = k.closest('.cue');
+    const open = c.classList.toggle('open');
+    k.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  k.addEventListener('click', toggle);
+  k.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault(); e.stopPropagation(); toggle();
+    }
+  });
+});
+
+let tx = 0, ty = 0;
+addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
+addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 56 && Math.abs(dx) > Math.abs(dy)) go(idx + (dx < 0 ? 1 : -1));
+}, {passive:true});
+
+go(0);
+
+/* ── 天象圖 ───────────────────────── */
+function setup(id, slideId){
+  const cv = document.getElementById(id);
+  if(!cv) return null;
+  const ctx = cv.getContext('2d');
+  const host = document.getElementById(slideId);
+  let dim = {w:1,h:1};
+  function size(){
+    const r = cv.getBoundingClientRect();
+    if(r.width < 2 || r.height < 2) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(r.width*dpr); cv.height = Math.round(r.height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    dim = {w:r.width, h:r.height};
+  }
+  addEventListener('resize', size);
+  return {ctx, size, get dim(){return dim;}, get live(){return host.classList.contains('on');}};
+}
+const A = setup('cv-a','s3'), B = setup('cv-b','s4'), E = setup('cv-e','s5');
+
+function drawA(t){
+  const {ctx} = A, {w,h} = A.dim;
+  ctx.clearRect(0,0,w,h);
+  const cx = w*0.5, cy = h*0.62, L = Math.min(w,h)*0.46;
+  ctx.strokeStyle = 'rgba(203,212,234,.10)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(w*0.06, cy); ctx.lineTo(w*0.94, cy); ctx.stroke();
+  const rx = L*0.66, ry = L*0.24;
+  ctx.strokeStyle = 'rgba(203,212,234,.13)'; ctx.setLineDash([2,5]);
+  ctx.beginPath(); ctx.ellipse(cx, cy-L, rx, ry, 0, 0, Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+  const prec = t*0.00016, nod = Math.sin(prec*5)*ry*0.42;
+  ctx.strokeStyle = 'rgba(203,212,234,.30)';
+  ctx.beginPath();
+  for(let i=0;i<=180;i++){
+    const a = prec - i*0.026;
+    const n = Math.sin(a*5)*ry*0.42;
+    const x = cx + Math.cos(a)*rx, y = cy-L + Math.sin(a)*ry + n;
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  }
+  ctx.stroke();
+  const tipX = cx + Math.cos(prec)*rx, tipY = cy-L + Math.sin(prec)*ry + nod;
+  const g = ctx.createLinearGradient(cx, cy, tipX, tipY);
+  g.addColorStop(0,'rgba(203,212,234,.10)'); g.addColorStop(1,'rgba(244,239,230,.85)');
+  ctx.strokeStyle = g; ctx.lineWidth = 1.7;
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(tipX, tipY); ctx.stroke();
+  ctx.strokeStyle = 'rgba(203,212,234,.16)'; ctx.lineWidth = 1.1;
+  ctx.beginPath(); ctx.ellipse(cx, cy, L*0.44, L*0.16, 0, 0, Math.PI*2); ctx.stroke();
+  ctx.fillStyle = '#F4EFE6';
+  ctx.beginPath(); ctx.arc(tipX, tipY, 3.8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(244,239,230,.14)';
+  ctx.beginPath(); ctx.arc(tipX, tipY, 15, 0, Math.PI*2); ctx.fill();
+}
+
+function drawB(t){
+  const {ctx} = B, {w,h} = B.dim;
+  ctx.clearRect(0,0,w,h);
+  const cx = w*0.5, cy = h*0.5, R = Math.min(w,h)*0.38;
+  ctx.strokeStyle = 'rgba(127,200,217,.22)'; ctx.lineWidth = 1; ctx.setLineDash([3,6]);
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+  const n = 11;
+  for(let i=0;i<n;i++){
+    const a = (i/n)*Math.PI*2 - Math.PI/2;
+    const ph = t*0.0006 - i/n;
+    const pulse = 0.30 + 0.70*Math.pow(Math.max(0, Math.sin(ph*Math.PI*2)), 6);
+    const len = R*(0.62 + 0.38*((i%3)/2));
+    const ex = cx + Math.cos(a)*len, ey = cy + Math.sin(a)*len;
+    const g = ctx.createLinearGradient(cx, cy, ex, ey);
+    g.addColorStop(0,'rgba(127,200,217,'+(0.55*pulse).toFixed(3)+')');
+    g.addColorStop(1,'rgba(127,200,217,'+(0.10*pulse).toFixed(3)+')');
+    ctx.strokeStyle = g; ctx.lineWidth = 1.1;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.fillStyle = 'rgba(127,200,217,'+(0.30+0.60*pulse).toFixed(3)+')';
+    ctx.beginPath(); ctx.arc(ex, ey, 2.4, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.fillStyle = 'rgba(127,200,217,.13)';
+  ctx.beginPath(); ctx.arc(cx, cy, 15, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#F4EFE6';
+  ctx.beginPath(); ctx.arc(cx, cy, 3.4, 0, Math.PI*2); ctx.fill();
+}
+
+function drawE(t){
+  const {ctx} = E, {w,h} = E.dim;
+  ctx.clearRect(0,0,w,h);
+  const base = h*0.80, span = h*0.60;
+  const x0 = w*0.08, x1 = w*0.92;
+
+  // 光幕：沿著一條波動基線長出細條紋
+  const steps = Math.max(70, Math.round(w*0.42));
+  ctx.lineCap = 'butt';
+  for(let i=0;i<=steps;i++){
+    const f = i/steps;
+    const x = x0 + f*(x1-x0);
+    // 基線起伏
+    const yb = base
+      - Math.sin(f*2.4 + t*0.00034)*h*0.045
+      - Math.sin(f*5.1 - t*0.00019)*h*0.022;
+    // 條紋高度：多層正弦疊出不規則感
+    const k = 0.42
+      + 0.34*Math.abs(Math.sin(f*3.2 + t*0.00027))
+      + 0.20*Math.abs(Math.sin(f*8.7 - t*0.00041))
+      + 0.10*Math.sin(f*17.3 + t*0.00062);
+    const hh = Math.max(0, k)*span;
+    // 邊緣淡出
+    const edge = Math.pow(Math.sin(Math.max(0,Math.min(1,f))*Math.PI), 0.55);
+    const a = 0.30*edge*(0.55 + 0.45*Math.abs(Math.sin(f*6.3 + t*0.00048)));
+
+    const g = ctx.createLinearGradient(0, yb, 0, yb-hh);
+    g.addColorStop(0,   'rgba(244,239,230,' + (a*0.55).toFixed(3) + ')');
+    g.addColorStop(.10, 'rgba(232,131,107,' + (a).toFixed(3) + ')');
+    g.addColorStop(.45, 'rgba(217,165,75,'  + (a*0.62).toFixed(3) + ')');
+    g.addColorStop(1,   'rgba(217,165,75,0)');
+    ctx.strokeStyle = g;
+    ctx.lineWidth = (x1-x0)/steps + 0.5;
+    ctx.beginPath();
+    ctx.moveTo(x, yb);
+    ctx.lineTo(x + Math.sin(f*3.0 + t*0.00030)*w*0.035, yb - hh);
+    ctx.stroke();
+  }
+
+  // 亮邊：基線本身
+  ctx.beginPath();
+  for(let i=0;i<=steps;i++){
+    const f = i/steps;
+    const x = x0 + f*(x1-x0);
+    const yb = base
+      - Math.sin(f*2.4 + t*0.00034)*h*0.045
+      - Math.sin(f*5.1 - t*0.00019)*h*0.022;
+    i ? ctx.lineTo(x,yb) : ctx.moveTo(x,yb);
+  }
+  const hg = ctx.createLinearGradient(x0,0,x1,0);
+  hg.addColorStop(0,'rgba(232,131,107,0)');
+  hg.addColorStop(.5,'rgba(255,190,168,.75)');
+  hg.addColorStop(1,'rgba(232,131,107,0)');
+  ctx.strokeStyle = hg; ctx.lineWidth = 1.2;
+  ctx.stroke();
+
+  // 地平線與破曉點
+  const gy = h*0.93;
+  const lg = ctx.createLinearGradient(w*0.05,0,w*0.95,0);
+  lg.addColorStop(0,'rgba(203,212,234,0)');
+  lg.addColorStop(.5,'rgba(203,212,234,.22)');
+  lg.addColorStop(1,'rgba(203,212,234,0)');
+  ctx.strokeStyle = lg; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(w*0.05, gy); ctx.lineTo(w*0.95, gy); ctx.stroke();
+  ctx.fillStyle = 'rgba(232,131,107,.10)';
+  ctx.beginPath(); ctx.arc(w*0.5, gy, 30, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,190,168,.9)';
+  ctx.beginPath(); ctx.arc(w*0.5, gy, 2.6, 0, Math.PI*2); ctx.fill();
+}
+
+function sizeAll(){ [A,B,E].forEach(o => o && o.size()); }
+
+function frame(t){
+  if(A && A.live) drawA(t);
+  if(B && B.live) drawB(t);
+  if(E && E.live) drawE(t);
+  requestAnimationFrame(frame);
+}
+
+function start(){
+  sizeAll();
+  // 非當前頁的 canvas 尺寸為 0，切頁時補量一次
+  slides.forEach((s,i) => {
+    const b = dotBtns[i];
+    b.addEventListener('click', () => requestAnimationFrame(sizeAll));
+  });
+  [prevB, nextB, document.getElementById('zl'), document.getElementById('zr')]
+    .forEach(el => el.addEventListener('click', () => requestAnimationFrame(sizeAll)));
+  addEventListener('keydown', () => requestAnimationFrame(sizeAll));
+  if(reduce){ sizeAll(); drawA(2400); drawB(1400); drawE(2000); return; }
+  requestAnimationFrame(frame);
+}
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(start); } else { addEventListener('load', start); }
+</script>
+
+<script>
+/* ── 快速編輯模式：點文字直接改，自動存在這台瀏覽器，可下載新檔 ── */
+(function(){
+  const STORE_KEY = 'aegisDeck_edits_v7';
+  const SELECTORS = [
+    '.eyebrow > span', '.eyebrow em',
+    'h1', '.thesis', '.sign',
+    '.fam-head .mark', '.fam h2', '.lockup', '.lockup-zh', '.fam p', '.suffix span',
+    '.case .mark', '.ipa', '.root', '.idea', '.cue-k', '.cue-quote', '.tag .en', '.tag .zh', '.tag .kick',
+    '.viz figcaption',
+    '.arch h2', '.n-prod', '.chip', '.arch .cap', '.tsuf-en', '.tsuf-zh',
+    '.close h2', '.close p', '.own-zh', '.own-en', '.axes .n', '.axes .nm', '.axes .w', '.axes .s', '.risk p', '.foot'
+  ];
+  let els = [];
+  let editing = false;
+  let warnedNoStorage = false;
+
+  const bar = document.getElementById('editBar');
+  const toggleBtn = document.getElementById('editToggle');
+  const dlBtn = document.getElementById('editDownload');
+  const resetBtn = document.getElementById('editReset');
+  const toast = document.getElementById('editToast');
+
+  function storageWorks(){
+    try{
+      const t = '__aegisDeck_test__';
+      localStorage.setItem(t, '1');
+      localStorage.removeItem(t);
+      return true;
+    }catch(e){ return false; }
+  }
+  const canStore = storageWorks();
+
+  function showToast(msg, hold){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove('show'), hold || 1800);
+  }
+
+  function collect(){
+    // 用「所在頁 + 選取器 + 該頁內第幾個」當固定鑰匙，不用「全文第幾個」。
+    // 這樣以後在任何一頁插入新欄位，只會影響同一頁裡排在它後面的同類欄位，
+    // 不會把後面幾頁全部沖掉、對錯號。
+    els = [];
+    const seen = {};
+    SELECTORS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        const slide = el.closest('.slide');
+        const slideId = slide ? slide.id : 'root';
+        const comboKey = slideId + '|' + sel;
+        const n = (seen[comboKey] = (seen[comboKey] || 0) + 1) - 1;
+        el.dataset.ek = slideId + '::' + sel.replace(/[^a-zA-Z0-9]/g, '_') + '::' + n;
+        els.push(el);
+      });
+    });
+  }
+
+  function loadSaved(){
+    if(!canStore) return;
+    let raw;
+    try{ raw = localStorage.getItem(STORE_KEY); }catch(e){ return; }
+    if(!raw) return;
+    let data;
+    try{ data = JSON.parse(raw); }catch(e){ return; }
+    els.forEach(el => {
+      const v = data[el.dataset.ek];
+      if(typeof v === 'string') el.innerHTML = v;
+    });
+    resetBtn.style.display = '';
+    showToast('已還原上次的修改');
+  }
+
+  function saveAll(){
+    if(!canStore){
+      if(!warnedNoStorage){
+        warnedNoStorage = true;
+        showToast('⚠️ 這個環境無法自動存檔，改完務必按「下載這份」，不然關掉分頁就不見了', 4000);
+      }
+      return;
+    }
+    const data = {};
+    els.forEach(el => { data[el.dataset.ek] = el.innerHTML; });
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }catch(e){}
+  }
+
+  function setEditing(on){
+    editing = on;
+    document.body.classList.toggle('editing', on);
+    els.forEach(el => { el.contentEditable = on; el.spellcheck = false; });
+    toggleBtn.textContent = on ? '✓ 完成編輯' : '✎ 編輯文字';
+    toggleBtn.classList.toggle('on', on);
+    dlBtn.style.display = on ? '' : 'none';
+    resetBtn.style.display = on ? '' : (canStore && localStorage.getItem(STORE_KEY) ? '' : 'none');
+    if(on){
+      showToast(canStore
+        ? '點任何文字直接改，會自動存在這台瀏覽器裡'
+        : '⚠️ 這個環境無法自動存檔，改完請按「下載這份」保存', canStore ? 1800 : 3200);
+    }
+  }
+
+  toggleBtn.addEventListener('click', () => setEditing(!editing));
+
+  document.addEventListener('input', (e) => {
+    if(editing && e.target && e.target.dataset && e.target.dataset.ek){
+      saveAll();
+    }
+  }, true);
+
+  resetBtn.addEventListener('click', () => {
+    if(!confirm('清掉你在這台瀏覽器做的所有文字修改，換回最原始的文案？這個動作沒辦法復原。')) return;
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    location.reload();
+  });
+
+  dlBtn.addEventListener('click', () => {
+    const clone = document.documentElement.cloneNode(true);
+
+    // 清掉編輯痕跡，讓下載的檔案跟原始檔一樣乾淨、而且還能繼續編輯
+    const body = clone.querySelector('body');
+    if(body) body.classList.remove('editing');
+    clone.classList.remove('editing');
+    clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    clone.querySelectorAll('[data-ek]').forEach(el => el.removeAttribute('data-ek'));
+    clone.querySelectorAll('[spellcheck]').forEach(el => el.removeAttribute('spellcheck'));
+    // contenteditable 會塞 inline 字距，清掉以免蓋過樣式表
+    clone.querySelectorAll('[style]').forEach(el => {
+      if(/letter-spacing/.test(el.getAttribute('style') || '')) el.removeAttribute('style');
+    });
+    // 翻頁圓點是 JS 生成的，留著會在下次載入時變兩倍
+    const dotsClone = clone.querySelector('#dots');
+    if(dotsClone) dotsClone.innerHTML = '';
+    // 把翻頁狀態歸零，否則下載的檔案會停在你當時看的那一頁
+    clone.querySelectorAll('.slide').forEach((s, i) => {
+      s.classList.toggle('on', i === 0);
+      s.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
+    });
+    const hintClone = clone.querySelector('#hint');
+    if(hintClone) hintClone.classList.remove('gone');
+    const countClone = clone.querySelector('#count');
+    if(countClone) countClone.textContent = '';
+    const nextClone = clone.querySelector('#next');
+    if(nextClone) nextClone.removeAttribute('disabled');
+    const prevClone = clone.querySelector('#prev');
+    if(prevClone) prevClone.removeAttribute('disabled');
+    // canvas 尺寸每次載入會重算，寫死反而在別的螢幕上失真
+    clone.querySelectorAll('canvas').forEach(c => { c.removeAttribute('width'); c.removeAttribute('height'); });
+    // 編輯列本身留著，這樣下載回來的檔案還能繼續改
+    const toastClone = clone.querySelector('#editToast');
+    if(toastClone) toastClone.textContent = '';
+
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '08_提案簡報.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToast('已下載，記得把舊檔換掉');
+  });
+
+  function init(){ collect(); loadSaved(); }
+  if(document.readyState === 'loading'){ addEventListener('DOMContentLoaded', init); } else { init(); }
+})();
+</script>
